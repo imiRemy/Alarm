@@ -1,20 +1,43 @@
 
-const AlarmMaker = {
+//const AlarmMaker = {
+exports.AlarmMaker = {
 	Alarm (bundle) {
 		return Object.create(this.bundle[bundle]);
 	},
 
 	bundle: {
 		basic: {
-			flag: { set: false, snooze: false, trigger: false, event: false, clear: true },
+			flag: { enable: false, snooze: false, trigger: false, event: false, clear: true },
+			state: { alarmOff: true, alarmSet: false, alarmOn: false, alarmSnooze: false },
+			handler:	{ trigger: null },
+			enable () { this.flag = { enable: true, snooze: false, trigger: false, event: false, clear: false };
+									this.state =  { alarmOff: false, alarmSet: true, alarmOn: false, alarmSnooze: false };
+								},
+			clear () 	{ this.flag = { enable: false, snooze: false, trigger: false, event: false, clear: true };
+									this.state = { alarmOff: true, alarmSet: false, alarmOn: false, alarmSnooze: false };
+								},
+			setTrigger (fn) { this.handler.trigger = fn; },
+			_doTrigger ()		{ return (this.handler.trigger()); },
+			tick ()		{
+									this.flag.trigger = this._doTrigger();
+									if (this.state.alarmOff) {
+										this.clear();
+									}
+									else if ((this.state.alarmSet) && (this.flag.trigger)) {
+										this.state = { alarmOff: false, alarmSet: false, alarmOn: true, alarmSnooze: false }
+										this.flag.trigger = false;  // Clear trigger event.
+									} 
+									else if (this.state.alarmOn) {
+									} 
+									else if (this.state.alarmSnooze) {
+									}
+								},
 			doTriggerFn: null,
 			doEventFn: null,
 			setEvent (fn) { this.doEventFn = fn; },
 			doEvent () { if (this.doEventFn != null) { this.doEventFn(); this.flag.event = true } },
 			set ()   { this.flag.set = true; this.flag.snooze = false; this.flag.event = false; this.flag.clear = false },
-			clear () { this.flag.set = false; this.flag.snooze = false; this.flag.trigger = false; this.flag.event = false; this.flag.clear = true },
-			setTrigger (fn) { this.triggerFn = fn; },
-			doTrigger () { if (this.triggerFn != null) { this.triggerFn(); this.flag.trigger = true; return true } return false },
+			clearX () { this.flag.set = false; this.flag.snooze = false; this.flag.trigger = false; this.flag.event = false; this.flag.clear = true },
 			nextTick () {
 				if (this.doTrigger() == true) {
 					if (this.flag.set == true) {
@@ -39,6 +62,7 @@ const AlarmMaker = {
 	}
 };
 
+/*
 var foo = function () { console.log("calling foo"); return true; };
 var boo = foo;
 function goo() { console.log("Boo!"); return true; };
@@ -63,4 +87,6 @@ console.log( "alarm3: " + alarm3.getFlag() );
 alarm3.clearFlag();
 alarm3.extSetFlag( foo );
 console.log( "alarm3: " + alarm3.getFlag() );
+*/
+
 
