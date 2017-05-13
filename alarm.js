@@ -1,8 +1,8 @@
 
 //const AlarmMaker = {
 exports.AlarmMaker = {
-	Alarm (bundle) {
-		return Object.create(this.bundle[bundle]);
+	Alarm (opts) {
+		return( Object.create(this.bundle[opts]) );
 	},
 
 	bundle: {
@@ -32,12 +32,12 @@ exports.AlarmMaker = {
 									else if (this.state.alarmSnooze) {
 									}
 								},
-			doTriggerFn: null,
-			doEventFn: null,
-			setEvent (fn) { this.doEventFn = fn; },
-			doEvent () { if (this.doEventFn != null) { this.doEventFn(); this.flag.event = true } },
-			set ()   { this.flag.set = true; this.flag.snooze = false; this.flag.event = false; this.flag.clear = false },
-			clearX () { this.flag.set = false; this.flag.snooze = false; this.flag.trigger = false; this.flag.event = false; this.flag.clear = true },
+//			doTriggerFn: null,
+//			doEventFn: null,
+//			setEvent (fn) { this.doEventFn = fn; },
+//			doEvent () { if (this.doEventFn != null) { this.doEventFn(); this.flag.event = true } },
+//			set ()   { this.flag.set = true; this.flag.snooze = false; this.flag.event = false; this.flag.clear = false },
+//			clearX () { this.flag.set = false; this.flag.snooze = false; this.flag.trigger = false; this.flag.event = false; this.flag.clear = true },
 			nextTick () {
 				if (this.doTrigger() == true) {
 					if (this.flag.set == true) {
