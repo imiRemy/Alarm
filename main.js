@@ -1,27 +1,21 @@
 
-var AlarmMaker = require("./alarm.js").AlarmMaker;
+var Alarm = require("./alarm.js");
 
 var foo = function () { console.log("calling foo"); return true; };
 var boo = foo;
 function goo() { console.log("Boo!"); return true; };
 
-const alarm = AlarmMaker.Alarm('basic');
+const alarm = new Alarm();
 alarm.clear();
-alarm.set();
+alarm.enable();
 alarm.setTrigger( foo );
 alarm.setEvent( goo );
-alarm.nextTick();
+alarm.tick();
 
 
-var alarm2 = AlarmMaker.Alarm('basic');
+var alarm2 = new Alarm();
 //alarm2.set();
 //console.log( alarm2.getX(), alarm2.getFlag() );
 
-var alarm3 = AlarmMaker.Alarm('premium');
-console.log( "alarm3: " + alarm3.getFlag() );
-alarm3.regSetFlagFn( boo );
-alarm3.setFlagFn();
-console.log( "alarm3: " + alarm3.getFlag() );
-alarm3.clearFlag();
-alarm3.extSetFlag( foo );
-console.log( "alarm3: " + alarm3.getFlag() );
+var alarm3 = new Alarm();
+
