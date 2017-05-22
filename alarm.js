@@ -41,6 +41,8 @@ Alarm.prototype._doTrigger = function() {
 
 //-----------------------------------------------------------------------------------
 // _doEvent() returns true for an undefined handler.
+// Use this function call to perform some action for the alarmOn state.  Return true
+// or false depending on if the alarmOn state should stay active or not.
 // In this case, an alarm event stays on until some explicit action resets the alarm.
 //-----------------------------------------------------------------------------------
 
@@ -87,7 +89,6 @@ Alarm.prototype._doAutoOff = function() {
 
 Alarm.prototype.tick = function() {
 	this.flag.trigger = this._doTrigger();
-	this.flag.event = this._doEvent();
 	this.flag.snooze = this._doSnooze();		// If alarm is on, go to snooze or not; If snoozing, should snooze continue or go back to on state.
 	this.flag.clear = this._doAutoOff();		// Function to automatically turn off the alarm.  Has precedence over other transitions.
 	
@@ -126,6 +127,7 @@ Alarm.prototype.tick = function() {
 
 	else if (this.state.alarmOn) {
 		if (this.flag.clear != true) {
+			this.flag.event = this._doEvent();		// After trigger event, use this function to determine if alarm should stay on or go back to 'alarmSet'
 			if (this.flag.event == false)
 				this.enable();
 			else if (this.flag.snooze == true)

@@ -43,7 +43,7 @@ alarm2.tick();												// Should now be in 'alarmSnooze'
 
 describe('Alarm stays in alarmSnooze state:', function() {
 	alarm2.tick();
-	it('trigger function is set and clear is false', function() {
+	it('snooze function is set and clear is false', function() {
 		expect(alarm2.state.alarmSnooze).to.be.true;
 	});
 });
