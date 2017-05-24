@@ -6,15 +6,41 @@ function Alarm() {
 	this.handler = { trigger: null, event: null, snooze: null, autoOff: null };
 };
 
-Alarm.prototype.enable = function() {
-	this.flag = { enable: true, snooze: false, trigger: false, event: false, clear: false };
+// --------------------------------------------------------
+// Set Alarm to a specific state. Effective immediately and
+// does not use the state transitions of this.tick().
+// --------------------------------------------------------
+
+Alarm.prototype.enable = function() {		// Same as setting alarm.
+	this.flag = { enable: true, snooze: false, trigger: false, event: true, clear: false };
 	this.state =  { alarmOff: false, alarmSet: true, alarmOn: false, alarmSnooze: false };
 }
 
-Alarm.prototype.clear = function() {
+Alarm.prototype.clear = function() {		// Same as turning alarm off.
 	this.flag = { enable: false, snooze: false, trigger: false, event: false, clear: true };
 	this.state = { alarmOff: true, alarmSet: false, alarmOn: false, alarmSnooze: false };
 }
+
+Alarm.prototype.turnAlarmOn = function() {
+	this.flag = { enable: false, snooze: false, trigger: true, event: false, clear: false };
+	this.state =  { alarmOff: false, alarmSet: false, alarmOn: true, alarmSnooze: false };
+}
+
+// ------------------------
+// Get current alarm state.
+// ------------------------
+
+Alarm.prototype.isOn = function() {
+	return( this.state.alarmOn );
+}
+
+Alarm.prototype.isSet = function() {
+	return( this.state.alarmSet );
+}
+
+// --------------------------
+// Set the handler functions.
+// --------------------------
 
 Alarm.prototype.setTrigger = function( fn ) {
 	this.handler.trigger = fn;
